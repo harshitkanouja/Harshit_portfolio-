@@ -1,44 +1,47 @@
 /* ==========================
-   Sticky Header
+   STICKY HEADER
 ========================== */
 
 const header = document.querySelector("header");
 
-window.addEventListener("scroll", () => {
-
-    header.classList.toggle("sticky", window.scrollY > 50);
-
-});
+if (header) {
+    window.addEventListener("scroll", () => {
+        header.classList.toggle("sticky", window.scrollY > 50);
+    });
+}
 
 /* ==========================
-   Smooth Scroll
+   SMOOTH SCROLL
 ========================== */
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
-    anchor.addEventListener("click", function(e){
+    anchor.addEventListener("click", function (e) {
 
-        e.preventDefault();
+        const target = document.querySelector(this.getAttribute("href"));
 
-        document.querySelector(this.getAttribute("href")).scrollIntoView({
+        if (target) {
+            e.preventDefault();
 
-            behavior:"smooth"
-
-        });
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
 
     });
 
 });
 
+
 /* ==========================
-   Scroll Animation
+   SCROLL ANIMATION
 ========================== */
 
-const observer = new IntersectionObserver((entries)=>{
+const observer = new IntersectionObserver((entries) => {
 
-    entries.forEach(entry=>{
+    entries.forEach(entry => {
 
-        if(entry.isIntersecting){
+        if (entry.isIntersecting) {
 
             entry.target.classList.add("show");
 
@@ -48,7 +51,7 @@ const observer = new IntersectionObserver((entries)=>{
 
 });
 
-document.querySelectorAll("section").forEach(section=>{
+document.querySelectorAll("section").forEach(section => {
 
     section.classList.add("hidden");
 
@@ -56,165 +59,130 @@ document.querySelectorAll("section").forEach(section=>{
 
 });
 
-/* ==========================
-   Counter Animation
-========================== */
-
-const counters = document.querySelectorAll(".stat-box h2");
-
-counters.forEach(counter=>{
-
-    const updateCounter = ()=>{
-
-        const target = Number(counter.innerText.replace("+",""));
-
-        const current = Number(counter.getAttribute("data-count")) || 0;
-
-        if(current < target){
-
-            const next = current + 1;
-
-            counter.setAttribute("data-count", next);
-
-            counter.innerText = next + "+";
-
-            setTimeout(updateCounter,60);
-
-        }else{
-
-            counter.innerText = target + "+";
-
-        }
-
-    };
-
-    updateCounter();
-
-});
 
 /* ==========================
-   Typing Animation
+   TYPING ANIMATION
 ========================== */
 
-const roles=[
+const roles = [
 
-"Data Analyst",
+    "Data Analyst",
 
-"Power BI Developer",
+    "Power BI Developer",
 
-"SQL Enthusiast",
+    "SQL Enthusiast",
 
-"Python Learner"
+    "Python Learner"
 
 ];
 
-let roleIndex=0;
+let roleIndex = 0;
+let charIndex = 0;
+let deleting = false;
 
-let charIndex=0;
+const role = document.querySelector(".hero-text h2");
 
-let deleting=false;
+function typingEffect() {
 
-const role=document.querySelector(".hero-content h2");
+    if (!role) return;
 
-function typingEffect(){
+    const current = roles[roleIndex];
 
-    if(!role) return;
+    if (!deleting) {
 
-    const current=roles[roleIndex];
+        role.textContent = current.substring(0, charIndex++);
 
-    if(!deleting){
+        if (charIndex > current.length) {
 
-        role.textContent=current.substring(0,charIndex++);
+            deleting = true;
 
-        if(charIndex>current.length){
-
-            deleting=true;
-
-            setTimeout(typingEffect,1500);
+            setTimeout(typingEffect, 1500);
 
             return;
 
         }
 
-    }else{
+    } else {
 
-        role.textContent=current.substring(0,charIndex--);
+        role.textContent = current.substring(0, charIndex--);
 
-        if(charIndex===0){
+        if (charIndex === 0) {
 
-            deleting=false;
+            deleting = false;
 
-            roleIndex=(roleIndex+1)%roles.length;
+            roleIndex = (roleIndex + 1) % roles.length;
 
         }
 
     }
 
-    setTimeout(typingEffect,deleting?60:120);
+    setTimeout(typingEffect, deleting ? 60 : 120);
 
 }
 
 typingEffect();
 
+
 /* ==========================
-   Scroll To Top
+   SCROLL TO TOP BUTTON
 ========================== */
 
-const topBtn=document.createElement("button");
+const topBtn = document.createElement("button");
 
-topBtn.innerHTML="↑";
+topBtn.innerHTML = "↑";
 
-topBtn.id="topBtn";
+topBtn.id = "topBtn";
 
 document.body.appendChild(topBtn);
 
-window.addEventListener("scroll",()=>{
+window.addEventListener("scroll", () => {
 
-    topBtn.style.display=window.scrollY>400?"block":"none";
+    topBtn.style.display = window.scrollY > 400 ? "block" : "none";
 
 });
 
-topBtn.addEventListener("click",()=>{
+topBtn.addEventListener("click", () => {
 
     window.scrollTo({
 
-        top:0,
+        top: 0,
 
-        behavior:"smooth"
+        behavior: "smooth"
 
     });
 
 });
 
+
 /* ==========================
-   Active Navigation
+   ACTIVE NAVIGATION
 ========================== */
 
-const sections=document.querySelectorAll("section");
+const sections = document.querySelectorAll("section");
 
-const navLinks=document.querySelectorAll("nav a");
+const navLinks = document.querySelectorAll(".nav-links a");
 
-window.addEventListener("scroll",()=>{
+window.addEventListener("scroll", () => {
 
-    let current="";
+    let current = "";
 
-    sections.forEach(section=>{
+    sections.forEach(section => {
 
-        const sectionTop=section.offsetTop-120;
+        const sectionTop = section.offsetTop - 120;
 
-        if(pageYOffset>=sectionTop){
+        if (window.scrollY >= sectionTop) {
 
-            current=section.getAttribute("id");
+            current = section.getAttribute("id");
 
         }
 
     });
 
-    navLinks.forEach(link=>{
+    navLinks.forEach(link => {
 
         link.classList.remove("active");
 
-        if(link.getAttribute("href")==="#"+current){
+        if (link.getAttribute("href") === "#" + current) {
 
             link.classList.add("active");
 
@@ -224,22 +192,23 @@ window.addEventListener("scroll",()=>{
 
 });
 
+
 /* ==========================
-   Contact Form
+   CONTACT FORM
 ========================== */
 
-const form=document.querySelector(".contact-form");
+const form = document.querySelector(".contact-form form");
 
-if(form){
+if (form) {
 
-form.addEventListener("submit",(e)=>{
+    form.addEventListener("submit", (e) => {
 
-e.preventDefault();
+        e.preventDefault();
 
-alert("Thank you! Your message has been received.");
+        alert("Thank you! Your message has been received.");
 
-form.reset();
+        form.reset();
 
-});
+    });
 
 }
