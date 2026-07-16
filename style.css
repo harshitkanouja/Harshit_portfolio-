@@ -968,3 +968,42 @@ font-size:15px;
 }
 
 }
+.hidden{
+opacity:0;
+transform:translateY(60px);
+transition:all .8s ease;
+}
+
+.show{
+opacity:1;
+transform:translateY(0);
+}
+
+header.sticky{
+box-shadow:0 5px 20px rgba(0,0,0,.4);
+}
+
+nav a.active{
+color:#00BFFF;
+}
+
+#topBtn{
+position:fixed;
+bottom:25px;
+right:25px;
+width:50px;
+height:50px;
+border:none;
+border-radius:50%;
+background:#00BFFF;
+color:white;
+font-size:20px;
+cursor:pointer;
+display:none;
+box-shadow:0 5px 15px rgba(0,191,255,.4);
+transition:.3s;
+}
+
+#topBtn:hover{
+transform:scale(1.1);
+}
